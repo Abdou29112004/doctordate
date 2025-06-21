@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor date - Rendez-vous Médical</title>
+  <style>
+    body {
+      background-color: #fff;
+      color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      transition: direction 0.3s;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #3498DB;
+      color: white;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 90px;
+      height: 90pxS;
+    }
+
+    .logo img {
+      height: 120px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+    }
+
+    nav button {
+      background-color: white;
+      color: #3498DB;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    nav select {
+      padding: 6px;
+      border-radius: 5px;
+      border: none;
+      font-weight: bold;
+      color: #3498DB;
+    }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      max-width: 500px;
+      text-align: left;
+    }
+
+    .hero-text h1 {
+      font-size: 36px;
+      color: #3498DB;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+    }
+
+    .hero-text button {
+      margin-top: 20px;
+      background-color: #3498DB;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hero-img img {
+      max-width: 150px;
+    }
+
+    .services {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .service-card {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      width: 220px;
+      text-align: center;
+      border: 2px solid #3498DB;
+      transition: transform 0.3s, box-shadow 0.3s;
+      color: #000;
+    }
+
+    .service-card h3 {
+      color: #3498DB;
+    }
+
+    .service-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #3498DB;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #3498DB;
+      color: white;
+    }
+  </style>
+
+  <script>
+    const translations = {
+      fr: {
+        title: "Votre Santé, Notre Priorité",
+        desc: "Réservez vos rendez-vous médicaux facilement et rapidement dans votre wilaya.",
+        btnRdv: "Prendre RDV",
+        linkServices: "Services",
+        services: "Services",
+        service1: "Service Partenariat",
+        service2: "Service Client",
+        service3: "Support",
+        service1Desc: "Pour vous abonner avec nous",
+        service2Desc: "Consultez un médecin.",
+        service3Desc: "Contactez-nous."
+      },
+      ar: {
+        title: "صحتكم أولويتنا",
+        desc: "احجز مواعيدك الطبية بسهولة وسرعة في ولايتك.",
+        btnRdv: "احجز موعدًا",
+        linkServices: "الخدمات",
+        services: "الخدمات",
+        service1: "خدمة الشراكة",
+        service2: "خدمة الزبائن",
+        service3: "الدعم",
+        service1Desc: "اشترك معنا",
+        service2Desc: "استشر طبيبًا.",
+        service3Desc: "اتصل بنا."
+      }
+    };
+
+    function changeLanguage() {
+      const lang = document.getElementById("languageSelect").value;
+      const t = translations[lang];
+      document.getElementById("title").textContent = t.title;
+      document.getElementById("desc").textContent = t.desc;
+      document.getElementById("btnRdv").textContent = t.btnRdv;
+
+      document.getElementById("linkServices").textContent = t.linkServices;
+      document.getElementById("services").textContent = t.services;
+      document.getElementById("service1").textContent = t.service1;
+      document.getElementById("service2").textContent = t.service2;
+      document.getElementById("service3").textContent = t.service3;
+      document.getElementById("service1Desc").textContent = t.service1Desc;
+      document.getElementById("service2Desc").textContent = t.service2Desc;
+      document.getElementById("service3Desc").textContent = t.service3Desc;
+
+      document.body.style.direction = (lang === "ar") ? "rtl" : "ltr";
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png.png" alt="Logo Doctor date">
+      <span style="font-size: 24px; right: 200px ; font-weight: bold;"></span>
+    </div>
+    <nav>
+      <button onclick="window.location.href='index.html'" data-i18n="home">Accueil</button>
+      <a id="linkServices" href="#services">Services</a>
+      <button id="btnRdv" onclick="window.location.href='service_client.html'">Prendre RDV</button>
+      <select id="languageSelect" onchange="changeLanguage()">
+        <option value="fr">Français</option>
+        <option value="ar">العربية</option>
+      </select>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1 id="title">Votre Santé, Notre Priorité</h1>
+      <p id="desc">Réservez vos rendez-vous médicaux facilement et rapidement dans votre wilaya.</p>
+    </div>
+    <div class="hero-img">
+      <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Doctor" />
+    </div>
+  </section>
+
+  <section>
+    <h2 id="services" style="color:#3498DB;">Services</h2>
+    <div class="services">
+      <a href="partnership.html" class="service-card">
+        <h3 id="service1">Service Partenariat</h3>
+        <p id="service1Desc">Pour vous abonner avec nous</p>
+      </a>
+      <a href="service_client.html" class="service-card">
+        <h3 id="service2">Service Client</h3>
+        <p id="service2Desc">Consultez un médecin.</p>
+      </a>
+      <a href="support.html" class="service-card">
+        <h3 id="service3">Support</h3>
+        <p id="service3Desc">Contactez-nous.</p>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Doctor date. Tous droits réservés.
+  </footer>
+</body>
+</html>

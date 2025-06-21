@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="fr" id="html-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor date - Rendez-vous Médical</title>
+  <style>
+    body {
+      background-color: #F9EBEA;
+      color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      background-color: #3498DB;
+      color: white;
+    }
+
+    .logo img {
+      height: 120px;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    nav button, nav select {
+      background-color: #ffffff;
+      color: #3498DB;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px;
+      flex-wrap: wrap;
+    }
+
+    .hero-text {
+      max-width: 600px;
+      text-align: left;
+      color: #3498DB;
+    }
+
+    .hero-img img {
+      max-width: 150px;
+    }
+    .services {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+    }
+
+    .service-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 220px;
+      text-align: center;
+      border: 2px solid #3498DB;
+      transition: transform 0.3s, box-shadow 0.3s;
+      color: #000;
+    }
+
+    .service-card h3 {
+      color: #3498DB;
+    }
+
+    .service-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #3498DB;
+    }
+
+    form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin: 30px auto;
+      width: 90%;
+      max-width: 600px;
+      border: 2px solid #3498DB;
+    }
+
+    input, select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      background-color: white;
+      color: #000;
+    }
+
+    button[type="submit"] {
+      background-color: #3498DB;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #3498DB;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png.png" alt="Logo Doctor date" />
+    </div>
+
+    <nav>
+      <button onclick="window.location.href='home.html'" data-i18n="home">Accueil</button>
+      <button onclick="window.location.href='home.html'" data-i18n="services">Services</button>
+      <button onclick="scrollToForm()" data-i18n="appointment" >Prendre RDV</button>
+
+      <select id="langSelect" onchange="changerLangue(this.value)">
+        <option value="fr">Français</option>
+        <option value="ar">العربية</option>
+      </select>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1 data-i18n="heroTitle">Votre Santé, Notre Priorité</h1>
+      <p data-i18n="heroDesc">Réservez vos rendez-vous médicaux facilement et rapidement dans votre wilaya.</p>
+    </div>
+    <div class="hero-img">
+      <img src="https://cdn-icons-png.flaticon.com/512/3774/3774299.png" alt="Doctor" />
+    </div>
+  </section>
+
+  <section id="rdv">
+    <h2 style="color: #3498DB;" data-i18n="formTitle">Prendre Rendez-vous</h2>
+    <form id="rdv-form">
+      <input type="text" placeholder="Nom complet" required data-i18n-placeholder="fullName" />
+      <input type="email" placeholder="Email" required data-i18n-placeholder="email" />
+      <input type="date" required />
+
+      <select id="wilaya" onchange="updateVillagesEtCliniques()" required>
+        <option value="">Sélectionner une wilaya</option>
+        <option>Sidi Bel Abbès</option>
+        <option>Tlemcen</option>
+        <option>Oran</option>
+        <option>Mostaganem</option>
+        <option>Chlef</option>
+        <option>Mascara</option>
+      </select>
+
+      <select id="village" required>
+        <option value="">Choisir un village</option>
+      </select>
+
+      <select id="clinique" required>
+        <option value="">Choisir une clinique</option>
+      </select>
+
+      <label data-i18n="serviceType" style="color:#00bcd4; margin-top:10px; display:block; text-align:left; width: 80%;">Type(s) de service :</label>
+      <select id="services" multiple size="5" required>
+        <option value="consultation" data-i18n="consultation">Consultation Générale</option>
+        <option value="pediatre" data-i18n="pediatre">Pédiatre</option>
+        <option value="cardiologue" data-i18n="cardiologue">Cardiologue</option>
+        <option value="orl" data-i18n="orl">ORL</option>
+        <option value="dermatologue" data-i18n="dermatologue">Dermatologue</option>
+        <option value="gastro" data-i18n="gastro">Gastro</option>
+        <option value="neurologue" data-i18n="neurologue">Neurologue</option>
+        <option value="ophtalmologue" data-i18n="ophtalmologue">Ophtalmologue</option>
+      </select>
+
+      <label data-i18n="doctorLabel" style="color:#00bcd4; margin-top:10px; display:block; text-align:left; width: 80%;">Médecin disponible :</label>
+      <select id="medecin" required>
+
+          <option value="" data-i18n="chooseDoctor">Choisir un médecin</option>
+          <option data-doctor-id="a">Dr. A</option>
+          <option data-doctor-id="b">Dr. B</option>
+          <option data-doctor-id="c">Dr. C</option>
+
+
+      </select>
+
+      <input type="date" required />
+      <input type="time" required />
+      <button type="submit" data-i18n="submit">Réserver</button>
+    </form>
+    <div id="result"></div>
+    <table id="tableau-resultat" style="margin: 20px auto; display: none; border-collapse: collapse; width: 80%; max-width: 700px;">
+      <thead style="background-color: #3498DB; color: white;">
+        <tr>
+          <th data-i18n="thName">Nom</th>
+          <th data-i18n="thWilaya">Wilaya</th>
+          <th data-i18n="thVillage">Village</th>
+          <th data-i18n="thClinic">Clinique</th>
+          <th data-i18n="thDoctor">Médecin</th>
+          <th data-i18n="thDate">Date</th>
+          <th data-i18n="thTime">Heure</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Doctor date. <span data-i18n="rights">Tous droits réservés.</span></p>
+  </footer>
+
+  <script>
+    
+  const traductions = {
+    fr: {
+      home: "Accueil", services: "Services", appointment: "Prendre RDV",
+      heroTitle: "Votre Santé, Notre Priorité",
+      heroDesc: "Réservez vos rendez-vous médicaux facilement et rapidement dans votre wilaya.",
+      formTitle: "Prendre Rendez-vous", fullName: "Nom complet", email: "Email",
+      serviceType: "Type(s) de service :", doctorLabel: "Médecin disponible :",
+      consultation: "Consultation Générale", pediatre: "Pédiatre", cardiologue: "Cardiologue",
+      orl: "ORL", dermatologue: "Dermatologue", gastro: "Gastro",
+      neurologue: "Neurologue", ophtalmologue: "Ophtalmologue",
+      submit: "Réserver", rights: "Tous droits réservés.",
+      selectWilaya: "Sélectionner une wilaya", // fr
+
+
+      chooseVillage: "Choisir un village", chooseClinic: "Choisir une clinique",
+      chooseDoctor: "Choisir un médecin", // français
+      thName: "Nom",
+thWilaya: "Wilaya",
+thVillage: "Village",
+thClinic: "Clinique",
+thDoctor: "Médecin",
+thDate: "Date",
+thTime: "Heure",
+
+
+    },
+    ar: {
+      home: "الصفحة الرئيسية", services: "الخدمات", appointment: "حجز موعد",
+      heroTitle: "صحتك أولويتنا",
+      heroDesc: "احجز مواعيدك الطبية بسهولة وسرعة في ولايتك.",
+      formTitle: "احجز موعداً", fullName: "الاسم الكامل", email: "البريد الإلكتروني",
+      serviceType: "نوع الخدمة:", doctorLabel: "الطبيب المتاح:",
+      consultation: "استشارة عامة", pediatre: "طبيب أطفال", cardiologue: "طبيب قلب",
+      orl: "أنف أذن حنجرة", dermatologue: "طبيب الجلد", gastro: "طبيب الجهاز الهضمي",
+      neurologue: "طبيب أعصاب", ophtalmologue: "طبيب عيون",
+      submit: "احجز", rights: "جميع الحقوق محفوظة.",
+      selectWilaya: "اختر ولاية", // ar
+      chooseVillage: "اختر قرية", chooseClinic: "اختر عيادة",
+      chooseDoctor: "اختر طبيباً", // arabe
+      thName: "الاسم",
+thWilaya: "الولاية",
+thVillage: "القرية",
+thClinic: "العيادة",
+thDoctor: "الطبيب",
+thDate: "التاريخ",
+thTime: "الوقت",
+
+    }
+  };
+
+  const data = {
+  "Sidi Bel Abbès": {
+    villages: {
+      fr: ["Sidi Bel Abbès", "Sfizef", "Aïn El Berd"],
+      ar: ["سيدي بلعباس", "سفيزف", "عين البرد"]
+    },
+    cliniques: {
+      fr: ["Clinique hesnaoui", "Clinique chiali" ],
+      ar: ["عيادة حسناوي", "عيادة شيعلي"]
+    }
+  },
+  "Tlemcen": {
+    villages: {
+      fr: ["Tlemcen", "Maghnia", "Ghazaouet"],
+      ar: ["تلمسان", "مغنية", "غزوات"]
+    },
+    cliniques: {
+      fr: ["Clinique el amal", "Clinique Maghnia", "Clinique el rahma "],
+      ar: ["عيادة الامل", "عيادة مغنية", "عيادة الرحمة"]
+    }
+  },
+  "Oran": {
+    villages: {
+      fr: ["Oran", "Es Sénia", "Misserghin"],
+      ar: ["وهران", "السانية", "مسرغين"]
+    },
+    cliniques: {
+      fr: ["Clinique pasteur", "Clinique El Kerma", "Clinique el yassamine"], 
+      ar: ["عيادة باستور", "عيادة الكرمة", "عيادة الياسمين"]
+    }
+  },
+  "Mostaganem": {
+    villages: {
+      fr: ["Mostaganem", "Aïn Nouïssy", "Mesra"],
+      ar: ["مستغانم", "عين نويسي", "مسرة"]
+    },
+    cliniques: {
+      fr: ["Clinique El Habib", "Clinique Dar El Bassar"],
+      ar: [ "عيادة الحبيب", "عيادة دار البصر"]
+    }
+  },
+  "Chlef": {
+    villages: {
+      fr: ["Chlef", "Oued Fodda", "El Karimia"],
+      ar: ["الشلف", "وادي الفضة", "الكريمية"]
+    },
+    cliniques: {
+      fr: ["Clinique el saada", "Clinique El Karimia"],
+      ar: [ "عيادة السعادة", "عيادة الكريمية"]
+    }
+  },
+  "Mascara": {
+    villages: {
+      fr: ["Mascara", "Tighennif", "Sig"],
+      ar: ["معسكر", "تيغنيف", "سيق"]
+    },
+    cliniques: {
+      fr: ["Clinique el azher", "Clinique zahra", "Clinique Mohammadia"],
+      ar: ["عيادة الازهر", "عيادة الزهرة", "عيادة المحمدية"]
+    }
+  }
+  
+};
+const doctors = {
+  fr: {
+    a: "Dr. A",
+    b: "Dr. B",
+    c: "Dr. C"
+  },
+  ar: {
+    a: "الدكتور أ",
+    b: "الدكتور ب",
+    c: "الدكتور ج"
+  }
+};
+const wilayas = {
+  fr: {
+    "Sidi Bel Abbès": "Sidi Bel Abbès",
+    "Tlemcen": "Tlemcen",
+    "Oran": "Oran",
+    "Mostaganem": "Mostaganem",
+    "Chlef": "Chlef",
+    "Mascara": "Mascara"
+  },
+  ar: {
+    "Sidi Bel Abbès": "سيدي بلعباس",
+    "Tlemcen": "تلمسان",
+    "Oran": "وهران",
+    "Mostaganem": "مستغانم",
+    "Chlef": "الشلف",
+    "Mascara": "معسكر"
+  }
+};
+
+  let currentWilaya = "";
+
+  function changerLangue(langue) {
+    document.getElementById("html-root").lang = langue;
+    document.body.dir = langue === "ar" ? "rtl" : "ltr";
+
+    // Traduire les textes normaux
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      el.textContent = traductions[langue][key] || key;
+    });
+
+    // Traduire les placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      el.placeholder = traductions[langue][key] || key;
+    });
+
+    // Mettre à jour les options villages/cliniques selon la langue
+    updateVillagesEtCliniques(currentWilaya, langue);
+    // Traduire les docteurs
+const medecinSelect = document.getElementById("medecin");
+[...medecinSelect.options].forEach(opt => {
+  const id = opt.getAttribute("data-doctor-id");
+  if (id && doctors[langue][id]) {
+    opt.textContent = doctors[langue][id];
+  } else if (!id) {
+    opt.textContent = traductions[langue].chooseDoctor;
+  }
+});
+// Traduire les wilayas
+const wilayaSelect = document.getElementById("wilaya");
+const selected = wilayaSelect.value;
+
+wilayaSelect.innerHTML = `<option value="">${langue === "ar" ? "اختر ولاية" : "Sélectionner une wilaya"}</option>`;
+
+Object.keys(wilayas.fr).forEach(w => {
+  const opt = document.createElement("option");
+  opt.value = w; // on garde la valeur en français pour le code
+  opt.textContent = wilayas[langue][w];
+  if (w === selected) opt.selected = true;
+  wilayaSelect.appendChild(opt);
+});
+document.querySelectorAll("#tableau-resultat th").forEach(th => {
+  const key = th.getAttribute("data-i18n");
+  th.textContent = traductions[langue][key] || key;
+});
+
+
+
+  }
+
+  function updateVillagesEtCliniques(wilayaSelect = null, lang = document.documentElement.lang) {
+    const wilaya = wilayaSelect || document.getElementById("wilaya").value;
+    currentWilaya = wilaya;
+    const village = document.getElementById("village");
+    const clinique = document.getElementById("clinique");
+
+    // Sauvegarde des valeurs actuelles pour les re-sélectionner après changement
+    const selectedVillage = village.value;
+    const selectedClinique = clinique.value;
+
+    village.innerHTML = `<option value="">${traductions[lang].chooseVillage}</option>`;
+    clinique.innerHTML = `<option value="">${traductions[lang].chooseClinic}</option>`;
+
+    if (data[wilaya]) {
+      const vList = data[wilaya].villages[lang];
+      const cList = data[wilaya].cliniques[lang];
+
+      vList.forEach((v, i) => {
+        const opt = document.createElement("option");
+        opt.value = v;
+        opt.textContent = v;
+        if (selectedVillage === data[wilaya].villages[lang === 'ar' ? 'fr' : 'ar'][i]) {
+          opt.selected = true;
+        }
+        village.appendChild(opt);
+      });
+
+      cList.forEach((c, i) => {
+        const opt = document.createElement("option");
+        opt.value = c;
+        opt.textContent = c;
+        if (selectedClinique === data[wilaya].cliniques[lang === 'ar' ? 'fr' : 'ar'][i]) {
+          opt.selected = true;
+        }
+        clinique.appendChild(opt);
+      });
+    }
+  }
+
+  function scrollToForm() {
+    document.getElementById("rdv-form").scrollIntoView({ behavior: 'smooth' });
+  }
+  document.getElementById("rdv-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const lang = document.documentElement.lang;
+  const nom = this.querySelector('input[type="text"]').value;
+  const wilaya = this.querySelector("#wilaya").value;
+  const village = this.querySelector("#village").value;
+  const clinique = this.querySelector("#clinique").value;
+  const medecin = this.querySelector("#medecin").selectedOptions[0].textContent;
+  const date = this.querySelectorAll('input[type="date"]')[1].value;
+  const heure = this.querySelector('input[type="time"]').value;
+
+  const tbody = document.getElementById("table-body");
+  tbody.innerHTML = ""; // efface les anciennes données
+
+  const row = document.createElement("tr");
+  [nom, wilayas[lang][wilaya], village, clinique, medecin, date, heure].forEach(val => {
+    const td = document.createElement("td");
+    td.textContent = val;
+    td.style.border = "1px solid #ccc";
+    td.style.padding = "8px";
+    row.appendChild(td);
+  });
+  tbody.appendChild(row);
+
+  document.getElementById("tableau-resultat").style.display = "table";
+});
+
+</script>
+
+
+</body>
+</html>
